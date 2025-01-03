@@ -22,7 +22,6 @@ class BinarySearchTree {
   }
 
   add(data) {
-    // throw new NotImplementedError('Not implemented');
     const newNode = new TreeNode(data);
     if (!this.rootNode) {
       this.rootNode = newNode;
@@ -47,7 +46,6 @@ class BinarySearchTree {
   }
 
   has(data) {
-    // throw new NotImplementedError('Not implemented');
     let currentNode = this.rootNode;
     while (currentNode) {
       if (data === currentNode.data) {
@@ -63,7 +61,6 @@ class BinarySearchTree {
   }
 
   find(data) {
-    // throw new NotImplementedError('Not implemented');
     let currentNode = this.rootNode;
     while (currentNode) {
       if (currentNode.data === data) {
@@ -78,13 +75,42 @@ class BinarySearchTree {
     return null;
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    this.rootNode = this.removeNode(this.rootNode, data);
   }
-
+  removeNode(node, data) {
+    if (!node) {
+      return null;
+    }
+    if (data < node.data) {
+      node.left = this.removeNode(node.left, data);
+      return node;
+    } else if (data > node.data) {
+      node.right = this.removeNode(node.right, data);
+      return node;
+    } else {
+      if (!node.left && !node.right) {
+        return null;
+      }
+      if (!node.left) {
+        return node.right;
+      }
+      if (!node.right) {
+        return node.left;
+      }
+      let minRightNode = this.findMinNode(node.right);
+      node.data = minRightNode.data;
+      node.right = this.removeNode(node.right, minRightNode.data);
+      return node;
+    }
+  }
+  findMinNode(node) {
+    while (node.left) {
+      node = node.left;
+    }
+    return node;
+  }
   min() {
-    // throw new NotImplementedError('Not implemented');
     if (!this.rootNode) {
       return;
     }
@@ -96,7 +122,6 @@ class BinarySearchTree {
   }
 
   max() {
-    // throw new NotImplementedError('Not implemented');
     if (!this.rootNode) {
       return;
     }
